@@ -13,7 +13,24 @@ public class StudentClass {
 	}
 	
 	public static int[] computePrefixFunction(String pattern) {
-		// Please add your code here.
+		
+		int k;
+		int m=pattern.length();
+		int pei[];
+		pei=new int[m];
+		pei[0]=0;	//general case
+		k=0;
+									
+		for (int q=2; q<=m;q++) {
+			while (k>0 && pattern.charAt(k+1-1)!=pattern.charAt(q-1)) {
+				k=pei[k-1];
+			}
+			if (pattern.charAt(k+1-1)==pattern.charAt(q-1)) {
+					k=k+1;
+					}
+				pei[q-1]=k;
+			}
+		return pei;	
 	}
 
 
@@ -52,7 +69,23 @@ public class StudentClass {
 		}
 
 		public void search() {
-			// Please add your code here.
+			int n=this.textLen;
+			int m=this.patternLen;
+			int pei[]= computePrefixFunction(this.pattern);
+			int q=0;
+			
+			for(int i=1;i<=n;i++) {
+				while(q>0 && this.pattern.charAt(q+1-1)!=this.text.charAt(i-1)) {
+					q=pei[q-1];
+				}
+				if (this.pattern.charAt(q+1-1)==this.text.charAt(i-1)) {
+					q=q+1;
+				}
+				if (q==m) {
+					this.matchIndices.enqueue(i-m);
+					q=pei[q-1];
+				}
+			}
 		}
 	}
 }
